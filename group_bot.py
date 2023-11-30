@@ -112,5 +112,11 @@ def answer(message):
     if "Скинтье" in message.text or "скиньте" in message.text:
         bot.send_message(message.chat.id, "спрашивать для лохов")
 
+    else:
+        for i in ["пизд", "бля", "Пизд", "Бля", "БЛЯ", "хуй"]:
+            if i in message.text:
+                bot.send_message(message.chat.id, "Предупреждение за мат! замучу!")
+                bot.delete_message(message.chat.id, message.id)
+
 
 bot.infinity_polling()

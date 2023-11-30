@@ -10,7 +10,7 @@ def replace_in_file(replacing, after, file):
 
 
 def open_file(file):
-    f = open(f"{file}.txt", "r+")
+    f = open(f"{file}.txt", "r+", encoding=("windows-1251"))
     f_ = f.readlines()
     f_a = [i[:len(i) - 1] for i in f_]
     f.close()
@@ -18,7 +18,7 @@ def open_file(file):
 
 
 def clear_file(f):
-    file = open(f"{f}", 'r+')
+    file = open(f"{f}", 'r+', encoding=("windows-1251"))
 
     m = file.readlines()
     ma = []

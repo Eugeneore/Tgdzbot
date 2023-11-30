@@ -52,6 +52,10 @@ def choose(message):
         bot.send_message(message.chat.id, "Дальше")
         choose(message)
 
+    elif message.text == "kill" and str(message.chat.id) in can_cange_all:
+        bot.send_message(2036477846, f"Kill comand used by user:{message.chat.id}")
+        exit(0)
+
     elif str(message.chat.id) not in lang_base and message.text not in groups_s:
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         button1 = types.KeyboardButton("Английский язык группа 1 (Храмова)")
@@ -314,7 +318,6 @@ def photo(message):
     global waiting_ob
 
     can_cange_all = open_file('can_change')
-
     if not waiting_ob:
         if choosen_lesson in photos and str(message.chat.id) in can_cange_all:
             file_info = bot.get_file(message.photo[len(message.photo) - 1].file_id)
