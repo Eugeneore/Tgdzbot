@@ -9,6 +9,8 @@ bot = telebot.TeleBot(token)
 
 key = 'Groupbotkey1488'
 
+spam = []
+
 @bot.message_handler(commands=['start'])
 def start(message):
     bot.send_message(message.chat.id, "Бот работает если не знаете как пользоваться напишите /help")
@@ -113,10 +115,31 @@ def answer(message):
         bot.send_message(message.chat.id, "спрашивать для лохов")
 
     else:
-        for i in ["пизд", "бля", "Пизд", "Бля", "БЛЯ", "хуй"]:
+        for i in ["пизд", "бля", "Пизд", "Бля", "БЛЯ", "хуй", "хер"]:
             if i in message.text:
                 bot.send_message(message.chat.id, "Предупреждение за мат! замучу!")
                 bot.delete_message(message.chat.id, message.id)
+        if message.from_user.id in spam:
+            if message.text == spam[spam.index(message.from_user.id) + 1]:
+                bot.delete_message(message.chat.id, message.id)
+                spam[spam.index(message.from_user.id) + 2] += 1
+            else:
+                spam[spam.index(message.from_user.id) + 2] = 1
+            if spam[spam.index(message.from_user.id) + 2] == 4:
+                bot.delete_message(message.chat.id, message.id)
+                bot.send_message(message.chat.id, "Последнее предупреждение")
+            elif spam[spam.index(message.from_user.id) + 2] >= 5:
+                bot.delete_message(message.chat.id, message.id)
+                bot.send_message(message.chat.id, f"Мут за спам на{2 ** spam[spam.index(message.from_user.id) + 2]} минут")
+                try:
+                    bot.restrict_chat_member(message.chat.id, message.from_user.id, until_date=time.time() + 2 ** spam[spam.index(message.from_user.id) + 2])
+                except:
+                    bot.send_message(message.chat.id, "При муте появилась ошибка возможно человек админ или хз")
+        else:
+            spam.append(message.from_user.id)
+            spam.append(message)
+            spam.append(1)
+
 
 
 bot.infinity_polling()
